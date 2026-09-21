@@ -9,10 +9,9 @@ import EventsTeaser from "../components/sections/EventsTeaser.astro";
 import Faq from "../components/sections/Faq.astro";
 import Contact from "../components/sections/Contact.astro";
 import { getCollection } from "astro:content";
+import { getBlogPosts } from "../lib/blog";
 
-const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-).slice(0, 3);
+const posts = (await getBlogPosts()).slice(0, 3);
 
 const events = (await getCollection("etkinlikler")).sort(
   (a, b) => a.data.date.valueOf() - b.data.date.valueOf(),

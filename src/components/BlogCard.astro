@@ -1,8 +1,8 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import type { BlogPost } from "../lib/blog";
 
 interface Props {
-  post: CollectionEntry<"blog">;
+  post: BlogPost;
   imageClass?: string;
   heading?: "h2" | "h3";
   revealDelay?: number;
@@ -21,7 +21,7 @@ const {
 ---
 
 <a
-  href={`/blog/${post.id}`}
+  href={`/blog/${post.slug}`}
   class:list={[
     "group flex h-full flex-col overflow-hidden rounded-3xl bg-cream shadow-[4px_6px_18px_rgb(27_39_32_/_0.12)]",
     featured && "md:flex-row md:items-stretch",
@@ -31,7 +31,7 @@ const {
   style={typeof revealDelay === "number" ? `--reveal-delay: ${revealDelay}ms` : undefined}
 >
   <img
-    src={post.data.image}
+    src={post.image}
     alt=""
     class:list={[
       "object-cover",
@@ -47,7 +47,7 @@ const {
     ]}
   >
     <p class="text-xs tracking-wide text-moss uppercase">
-      {post.data.pubDate.toLocaleDateString("tr-TR")}
+      {post.pubDate.toLocaleDateString("tr-TR")}
     </p>
     <Heading
       class:list={[
@@ -57,7 +57,7 @@ const {
           : "line-clamp-2 text-2xl",
       ]}
     >
-      {post.data.title}
+      {post.title}
     </Heading>
     <p
       class:list={[
@@ -65,7 +65,7 @@ const {
         featured ? "line-clamp-2 text-sm md:line-clamp-none md:text-base" : "line-clamp-2 text-sm",
       ]}
     >
-      {post.data.description}
+      {post.description}
     </p>
     <p class="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-fuchsia shrink-0">
       Yazıyı gör
