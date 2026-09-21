@@ -32,17 +32,10 @@ export const post = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "imageUrl",
-      title: "Görsel",
-      type: "string",
-      description: "public path, örn. /gallery-3.webp",
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "placeholder",
-      title: "Yer tutucu",
-      type: "boolean",
-      initialValue: false,
+      name: "cover",
+      title: "Kapak",
+      type: "image",
+      options: { hotspot: true },
     }),
     defineField({
       name: "body",
@@ -56,6 +49,7 @@ export const post = defineType({
     select: {
       title: "title",
       subtitle: "slug.current",
+      media: "cover",
     },
   },
 });

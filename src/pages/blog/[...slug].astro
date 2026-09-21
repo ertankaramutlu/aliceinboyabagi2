@@ -19,7 +19,6 @@ const html = marked.parse(post.body, { async: false }) as string;
   <article class="section-pad mx-auto max-w-3xl px-4 pt-28 md:px-6">
     <p class="text-xs tracking-wide text-moss uppercase">
       {post.pubDate.toLocaleDateString("tr-TR")}
-      {post.placeholder && " · örnek yazı"}
     </p>
     <h1 class="mt-3 font-display text-4xl md:text-5xl">{post.title}</h1>
     <img

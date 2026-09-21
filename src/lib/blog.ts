@@ -1,4 +1,5 @@
 import { createClient } from "@sanity/client";
+import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url";
 
 export const sanity = createClient({
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
@@ -8,13 +9,14 @@ export const sanity = createClient({
   token: process.env.SANITY_API_READ_TOKEN,
 });
 
+const builder = createImageUrlBuilder(sanity);
+
 export type BlogPost = {
   slug: string;
   title: string;
   description: string;
   pubDate: Date;
   image: string;
-  placeholder: boolean;
   body: string;
 };
 
@@ -24,7 +26,8 @@ type SanityPost = {
   description: string;
   pubDate: string | null;
   imageUrl: string | null;
-  placeholder: boolean | null;
+  coverUrl: string | null;
+  cover: SanityImageSource | null;
   body: string | null;
 };
 
@@ -34,9 +37,30 @@ const postProjection = `{
   description,
   pubDate,
   imageUrl,
-  placeholder,
+  cover,
+  "coverUrl": cover.asset->url,
   body
 }`;
+
+function isAllowedSrc(src: string | null | undefined): src is string {
+  if (!src) return false;
+  if (src.startsWith("https://") || src.startsWith("http://")) return true;
+  return /^\/gallery-[^/]+\.webp$/.test(src);
+}
+
+function resolveImage(doc: SanityPost): string {
+  if (doc.cover) {
+    try {
+      const url = builder.image(doc.cover).width(1600).url();
+      if (isAllowedSrc(url)) return url;
+    } catch {
+      /* fall through */
+    }
+  }
+  if (isAllowedSrc(doc.coverUrl)) return doc.coverUrl;
+  if (isAllowedSrc(doc.imageUrl)) return doc.imageUrl;
+  return "/gallery-3.webp";
+}
 
 function toPost(doc: SanityPost): BlogPost | null {
   if (!doc.slug) return null;
@@ -45,8 +69,7 @@ function toPost(doc: SanityPost): BlogPost | null {
     title: doc.title,
     description: doc.description,
     pubDate: new Date(doc.pubDate || "2026-09-21"),
-    image: doc.imageUrl || "/gallery-3.webp",
-    placeholder: Boolean(doc.placeholder),
+    image: resolveImage(doc),
     body: doc.body || "",
   };
 }
