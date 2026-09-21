@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Outfit", system-ui, sans-serif;
+
+  --color-cream: #f4efe4;
+  --color-sand: #e5d7c3;
+  --color-paper: #fbf7ef;
+  --color-ink: #1b2720;
+  --color-forest: #2a5a38;
+  --color-moss: #4a6b4e;
+  --color-fuchsia: #b31b72;
+  --color-fuchsia-deep: #8a1458;
+  --color-lime: #d2dc4e;
+  --color-lagoon: #3d6d7a;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.js-reveal [data-reveal] {
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.7s ease-out;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js-reveal [data-reveal]:not(.is-revealed) {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal [data-reveal],
+  .js-reveal [data-reveal]:not(.is-revealed) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-cream);
+  color: var(--color-ink);
+}
+
+::selection {
+  background: var(--color-lime);
+  color: var(--color-ink);
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+}
+
+.section-pad {
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
+}
+
+.prose-alice :where(p, ul, ol) {
+  color: color-mix(in srgb, var(--color-ink) 82%, transparent);
+  line-height: 1.75;
+}
+
+.prose-alice :where(h2, h3) {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  margin-top: 1.75rem;
+}
+
+.prose-alice a {
+  color: var(--color-fuchsia);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}

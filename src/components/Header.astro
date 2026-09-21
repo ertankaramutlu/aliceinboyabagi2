@@ -1,0 +1,215 @@
+---
+import { nav, site } from "../data/site";
+
+interface Props {
+  home?: boolean;
+}
+
+const { home = false } = Astro.props;
+---
+
+<header
+  id="site-header"
+  class="nav-reveal fixed top-3 right-4 left-4 z-40 overflow-hidden rounded-3xl border border-ink/10 bg-sand/50 shadow-sm backdrop-blur-md transition-shadow md:top-4 md:right-6 md:left-6"
+>
+  <div class="nav-reveal-inner flex items-center gap-4 px-4 py-3 md:px-5">
+    <a href={home ? "#anasayfa" : "/#anasayfa"} class="shrink-0">
+      <img src="/logo.png" alt={site.name} class="h-11 w-auto md:h-12" />
+    </a>
+
+    <div class="ml-auto flex items-center gap-2">
+      <nav class="hidden items-center gap-1 lg:flex" aria-label="Ana menü">
+        {
+          nav.map((item) => (
+            <a
+              href={home ? item.href : `/${item.href}`}
+              data-nav={item.href.slice(1)}
+              class="rounded-full px-3 py-1.5 text-base font-medium tracking-wide text-ink/70 transition hover:text-fuchsia data-active:bg-fuchsia/10 data-active:text-fuchsia"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+      <button
+        type="button"
+        id="menu-toggle"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        aria-label="Menüyü aç"
+      >
+        <span class="sr-only">Menü</span>
+        <span class="flex flex-col gap-1.5" aria-hidden="true">
+          <span class="block h-0.5 w-4 bg-ink"></span>
+          <span class="block h-0.5 w-4 bg-ink"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-nav" class="grid grid-rows-[0fr] lg:hidden">
+    <div class="mobile-nav-inner min-h-0 overflow-hidden">
+      <nav class="flex flex-col gap-1 px-4 pt-1 pb-4" aria-label="Mobil menü">
+        {
+          nav.map((item) => (
+            <a
+              href={home ? item.href : `/${item.href}`}
+              class="rounded-lg px-3 py-3 text-base text-ink/80"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const panel = document.getElementById("mobile-nav");
+  const setMenuOpen = (open: boolean) => {
+    panel?.classList.toggle("is-open", open);
+    toggle?.setAttribute("aria-expanded", String(open));
+  };
+  toggle?.addEventListener("click", () => {
+    setMenuOpen(toggle.getAttribute("aria-expanded") !== "true");
+  });
+
+  panel?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      setMenuOpen(false);
+    });
+  });
+
+  const header = document.getElementById("site-header");
+  const sections = [...document.querySelectorAll<HTMLElement>("main section[id]")];
+  const links = document.querySelectorAll<HTMLAnchorElement>("nav[aria-label='Ana menü'] a[data-nav]");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const setActive = (id: string) => {
+    links.forEach((link) => {
+      link.toggleAttribute("data-active", link.dataset.nav === id);
+    });
+  };
+
+  let pinned: string | null = null;
+
+  const scrollToId = (id: string) => {
+    const behavior = reducedMotion ? "auto" : "smooth";
+    if (id === "anasayfa") {
+      window.scrollTo({ top: 0, behavior });
+      return;
+    }
+    if (id === "rezervasyon") {
+      const galeri = document.getElementById("galeri");
+      if (!galeri) return;
+      window.scrollTo({
+        top: Math.max(0, galeri.offsetTop - window.innerHeight),
+        behavior,
+      });
+      return;
+    }
+    const target = document.getElementById(id);
+    if (!target) return;
+    const top = target.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: Math.max(0, top), behavior });
+  };
+
+  const spy = () => {
+    header?.classList.toggle("shadow-md", window.scrollY > 8);
+    if (!sections.length || !links.length) return;
+    if (pinned) {
+      setActive(pinned);
+      return;
+    }
+    const line = (header?.getBoundingClientRect().height ?? 72) + 80;
+    let current = sections[0];
+    for (const section of sections) {
+      if (section.getBoundingClientRect().top <= line) current = section;
+    }
+    setActive(current.id);
+  };
+
+  document.documentElement.style.scrollPaddingTop = "0";
+  spy();
+  window.addEventListener("scroll", spy, { passive: true });
+  window.addEventListener("hashchange", spy);
+  window.addEventListener("scrollend", () => {
+    pinned = null;
+    spy();
+  });
+
+  const hashIdFromHref = (href: string | null) => {
+    if (!href) return "";
+    if (href.startsWith("#")) return href.slice(1);
+    if (href.startsWith("/#") && location.pathname === "/") return href.slice(2);
+    return "";
+  };
+
+  document.addEventListener("click", (event) => {
+    const a = (event.target as Element | null)?.closest("a");
+    if (!(a instanceof HTMLAnchorElement)) return;
+    const id = hashIdFromHref(a.getAttribute("href"));
+    if (!id || !document.getElementById(id)) return;
+    event.preventDefault();
+    if (sections.some((section) => section.id === id)) {
+      pinned = id;
+      setActive(id);
+    }
+    history.pushState(null, "", `#${id}`);
+    scrollToId(id);
+  });
+
+</script>
+
+<style>
+  @keyframes nav-open-x {
+    from {
+      clip-path: inset(0 calc(50% - 2px) 0 calc(50% - 2px));
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @keyframes nav-inner-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  #site-header.nav-reveal {
+    transform-origin: center;
+    animation: nav-open-x 0.4s ease-out both;
+  }
+
+  #site-header.nav-reveal .nav-reveal-inner {
+    animation: nav-inner-fade 0.25s ease-out 0.15s both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-header.nav-reveal,
+    #site-header.nav-reveal .nav-reveal-inner {
+      animation: none;
+    }
+  }
+
+  #mobile-nav {
+    transition: grid-template-rows 0.3s ease-out;
+  }
+
+  #mobile-nav.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #mobile-nav {
+      transition: none;
+    }
+  }
+</style>

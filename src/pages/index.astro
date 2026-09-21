@@ -1,0 +1,31 @@
+---
+import Base from "../layouts/Base.astro";
+import Hero from "../components/sections/Hero.astro";
+import About from "../components/sections/About.astro";
+import Stay from "../components/sections/Stay.astro";
+import Gallery from "../components/sections/Gallery.astro";
+import BlogTeaser from "../components/sections/BlogTeaser.astro";
+import EventsTeaser from "../components/sections/EventsTeaser.astro";
+import Faq from "../components/sections/Faq.astro";
+import Contact from "../components/sections/Contact.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+).slice(0, 3);
+
+const events = (await getCollection("etkinlikler")).sort(
+  (a, b) => a.data.date.valueOf() - b.data.date.valueOf(),
+).slice(0, 2);
+---
+
+<Base>
+  <Hero />
+  <About />
+  <Stay />
+  <Gallery />
+  <BlogTeaser posts={posts} />
+  <EventsTeaser events={events} />
+  <Faq />
+  <Contact />
+</Base>

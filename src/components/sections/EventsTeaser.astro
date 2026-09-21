@@ -1,0 +1,50 @@
+---
+import type { CollectionEntry } from "astro:content";
+import SectionHeading from "../SectionHeading.astro";
+
+interface Props {
+  events: CollectionEntry<"etkinlikler">[];
+}
+
+const { events } = Astro.props;
+---
+
+<section id="etkinlik" class="section-pad">
+  <div class="mx-auto max-w-6xl px-4 md:px-6">
+    <SectionHeading
+      eyebrow="Etkinlik"
+      title="Bu sezon neler var"
+      intro="Konser, açık hava, küçük buluşmalar. Kartlara tıklayınca detay sayfası açılır."
+    />
+    <div class="grid gap-6 md:grid-cols-2">
+      {
+        events.map((event, i) => (
+          <a
+            href={`/etkinlikler/${event.id}`}
+            class="flex flex-col overflow-hidden rounded-3xl bg-paper md:flex-row"
+            data-reveal
+            style={`--reveal-delay: ${i * 60}ms`}
+          >
+            <img src={event.data.image} alt="" class="h-52 w-full object-cover md:h-auto md:w-56" />
+            <div class="p-6">
+              <p class="text-xs font-semibold tracking-wide text-fuchsia uppercase">
+                {event.data.date.toLocaleDateString("tr-TR", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </p>
+              <h3 class="mt-2 font-display text-3xl">{event.data.title}</h3>
+              <p class="mt-2 text-sm text-ink/70">{event.data.description}</p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+    <p class="mt-8 text-center" data-reveal>
+      <a href="/etkinlikler" class="text-sm font-medium text-fuchsia hover:underline">
+        Tüm etkinlikler
+      </a>
+    </p>
+  </div>
+</section>

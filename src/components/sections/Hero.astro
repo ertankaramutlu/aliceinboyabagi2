@@ -1,0 +1,39 @@
+---
+import { site } from "../../data/site";
+---
+
+<section id="anasayfa" class="relative isolate flex min-h-[100svh] items-end overflow-hidden">
+  <img
+    src="/hero.webp"
+    alt="Boyabağı Koyu, Karaburun"
+    class="absolute inset-0 h-full w-full object-cover"
+  />
+  <div
+    class="absolute inset-0"
+    style="background: linear-gradient(to top, rgb(27 39 32) 0%, rgb(27 39 32 / 0.45) 42%, rgb(27 39 32 / 0.18) 100%);"
+  >
+  </div>
+  <div
+    class="relative mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 pb-20 pt-36 md:px-6 md:pb-24"
+  >
+    <p class="pl-[6px] text-base tracking-[0.22em] text-lime">Karaburun · Boyabağı Koyu · Ege Denizi</p>
+    <h1 class="max-w-3xl font-display text-5xl leading-[1.05] text-paper drop-shadow-md md:text-7xl">
+      Boyabağı Koyu’nda,<br />masalın içinde.
+    </h1>
+    <p class="max-w-xl pl-[6px] text-lg text-paper/80">{site.tagline}</p>
+    <div class="flex flex-wrap gap-3">
+      <a
+        href="#galeri"
+        class="rounded-full border border-paper/40 px-6 py-3 text-sm font-medium text-paper transition hover:border-lime hover:text-lime"
+      >
+        Keşfet
+      </a>
+      <a
+        href="#rezervasyon"
+        class="rounded-full bg-fuchsia px-6 py-3 text-sm font-medium text-paper transition hover:bg-fuchsia-deep"
+      >
+        Rezervasyon yap
+      </a>
+    </div>
+  </div>
+</section>

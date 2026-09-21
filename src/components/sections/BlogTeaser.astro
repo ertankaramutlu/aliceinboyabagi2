@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BlogCard from "../BlogCard.astro";
+import SectionHeading from "../SectionHeading.astro";
+
+interface Props {
+  posts: CollectionEntry<"blog">[];
+}
+
+const { posts } = Astro.props;
+---
+
+<section id="blog" class="section-pad bg-paper">
+  <div class="mx-auto max-w-6xl px-4 md:px-6">
+    <SectionHeading
+      eyebrow="Blog"
+      title="Notlar ve yerin hali"
+      intro="Sezon, öneriler, küçük hikâyeler. Çadır, evler ve koy üzerine kısa notlar."
+    />
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        posts.map((post, i) => (
+          <BlogCard post={post} heading="h3" imageClass="h-52" revealDelay={i * 60} />
+        ))
+      }
+    </div>
+    <p class="mt-8 text-center" data-reveal>
+      <a href="/blog" class="text-base font-medium text-fuchsia hover:underline">Tüm yazılar</a>
+    </p>
+  </div>
+</section>

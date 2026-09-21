@@ -1,0 +1,56 @@
+---
+import { site, whatsappUrl } from "../../data/site";
+import SectionHeading from "../SectionHeading.astro";
+---
+
+<section id="iletisim" class="section-pad">
+  <div class="mx-auto max-w-6xl px-4 md:px-6">
+    <SectionHeading
+      eyebrow="İletişim"
+      title="Yolu sor, yeri söyleyelim"
+    />
+    <div class="grid gap-6 md:grid-cols-2">
+      <div class="rounded-3xl bg-paper p-8" data-reveal>
+        <p class="font-display text-2xl">Adres</p>
+        <p class="mt-2 text-ink/70">{site.address}</p>
+        <p class="mt-6 font-display text-2xl">Saatler</p>
+        <p class="mt-2 text-ink/70">{site.hours}</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a
+            href={whatsappUrl()}
+            class="rounded-full bg-fuchsia px-5 py-3 text-sm font-medium text-paper"
+            target="_blank"
+            rel="noreferrer">WhatsApp</a
+          >
+          <a
+            href={site.mapsUrl}
+            class="rounded-full border border-ink/15 px-5 py-3 text-sm"
+            target="_blank"
+            rel="noreferrer">Harita</a
+          >
+          <a
+            href={site.instagram}
+            class="rounded-full border border-ink/15 px-5 py-3 text-sm"
+            target="_blank"
+            rel="noreferrer">Instagram</a
+          >
+        </div>
+      </div>
+      <a
+        href={site.mapsUrl}
+        target="_blank"
+        rel="noreferrer"
+        class="relative min-h-72 overflow-hidden rounded-3xl"
+        data-reveal
+        style="--reveal-delay: 60ms"
+      >
+        <img src="/gallery-10.webp" alt="Boyabağı çevresi" class="h-full w-full object-cover" />
+        <span
+          class="absolute inset-x-6 bottom-6 rounded-full bg-cream/95 px-4 py-3 text-center text-sm font-medium"
+        >
+          Haritada aç
+        </span>
+      </a>
+    </div>
+  </div>
+</section>

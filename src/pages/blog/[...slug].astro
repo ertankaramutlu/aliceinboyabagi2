@@ -1,0 +1,55 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Base title={post.data.title} description={post.data.description} image={post.data.image}>
+  <article class="section-pad mx-auto max-w-3xl px-4 pt-28 md:px-6">
+    <p class="text-xs tracking-wide text-moss uppercase">
+      {post.data.pubDate.toLocaleDateString("tr-TR")}
+      {post.data.placeholder && " · örnek yazı"}
+    </p>
+    <h1 class="mt-3 font-display text-4xl md:text-5xl">{post.data.title}</h1>
+    <img
+      src={post.data.image}
+      alt=""
+      class="mt-8 h-72 w-full rounded-3xl object-cover shadow-[4px_6px_18px_rgb(27_39_32_/_0.12)]"
+    />
+    <div class="prose-alice mt-8 space-y-4 text-lg">
+      <Content />
+    </div>
+    <p class="mt-12">
+      <a
+        href="/blog"
+        class="group inline-flex items-center gap-1 text-sm font-medium text-fuchsia"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="none"
+          class="h-4 w-4 shrink-0 motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out motion-safe:group-hover:-translate-x-[0.3rem]"
+          aria-hidden="true"
+        >
+          <path
+            d="M13 8H3M7 4l-4 4 4 4"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+        Tüm yazılar
+      </a>
+    </p>
+  </article>
+</Base>

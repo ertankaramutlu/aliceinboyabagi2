@@ -1,0 +1,425 @@
+---
+import { houseStays, site, tentStays, whatsappUrl } from "../../data/site";
+import SectionHeading from "../SectionHeading.astro";
+
+const houseById = (id: (typeof houseStays)[number]["id"]) =>
+  houseStays.find((stay) => stay.id === id)!;
+const houseTop = (["tas-ev", "ihlamur-ev"] as const).map(houseById);
+const houseBottom = (["begonvil-ev", "sakiz-ev", "defne-ev"] as const).map(houseById);
+---
+
+<section id="konaklama" class="section-pad bg-paper">
+  <div class="mx-auto max-w-6xl px-4 md:px-6">
+    <SectionHeading
+      eyebrow="Konaklama"
+      title="Nasıl kalmak istersin?"
+      intro="Çadır veya evler. Tarih ve kişi sayını WhatsApp’tan yaz; müsaitliği oradan konuşuruz."
+    />
+
+    <p class="mb-4 font-display text-2xl text-forest" data-reveal>Çadır</p>
+    <div class="grid gap-6 md:grid-cols-2">
+      {
+        tentStays.map((stay, i) => (
+          <article
+            class="overflow-hidden rounded-3xl bg-cream shadow-[4px_6px_18px_rgb(27_39_32_/_0.12)]"
+            data-reveal
+            style={`--reveal-delay: ${i * 60}ms`}
+          >
+            <img
+              src={stay.image}
+              alt=""
+              class:list={[
+                "h-64 w-full object-cover",
+                stay.id === "kendi-cadirin" && "object-[center_80%]",
+              ]}
+            />
+            <div class="p-6">
+              <h3 class="font-display text-3xl">{stay.title}</h3>
+              <p class="mt-3 text-ink/70">{stay.text}</p>
+              <div class="mt-5 grid w-full grid-cols-2 gap-2">
+                <a
+                  href={`#ozellik-${stay.id}`}
+                  data-features-open
+                  data-stay-title={stay.title}
+                  data-stay-features={JSON.stringify(stay.features)}
+                  class="flex w-full items-center justify-center rounded-full border border-fuchsia px-4 py-2 text-center text-sm font-medium text-fuchsia transition hover:bg-fuchsia/10"
+                >
+                  Özellikler
+                </a>
+                <a
+                  href="#rezervasyon"
+                  data-stay-title={stay.title}
+                  class="flex w-full items-center justify-center rounded-full bg-fuchsia px-4 py-2 text-center text-sm font-medium text-paper transition hover:bg-fuchsia-deep"
+                >
+                  Rezervasyon
+                </a>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="mt-12 mb-4 font-display text-2xl text-forest" data-reveal>Evler</p>
+    <div class="grid gap-3 md:grid-cols-2">
+      {
+        houseTop.map((stay, i) => (
+          <article
+            class="overflow-hidden rounded-3xl bg-cream shadow-[4px_6px_18px_rgb(27_39_32_/_0.12)]"
+            data-reveal
+            style={`--reveal-delay: ${i * 60}ms`}
+          >
+            <img src={stay.image} alt="" class="aspect-[4/3] w-full object-cover object-[center_75%] md:aspect-[16/10]" />
+            <div class="p-4">
+              <h3 class="font-display text-2xl">{stay.title}</h3>
+              <p class="mt-3 text-sm text-ink/70">{stay.text}</p>
+              <div class="mt-5 grid w-full grid-cols-2 gap-1.5">
+                <a
+                  href={`#ozellik-${stay.id}`}
+                  data-features-open
+                  data-stay-title={stay.title}
+                  data-stay-features={JSON.stringify(stay.features)}
+                  class="flex w-full items-center justify-center rounded-full border border-fuchsia px-3 py-1.5 text-center text-xs font-medium text-fuchsia transition hover:bg-fuchsia/10"
+                >
+                  Özellikler
+                </a>
+                <a
+                  href="#rezervasyon"
+                  data-stay-title={stay.title}
+                  class="flex w-full items-center justify-center rounded-full bg-fuchsia px-3 py-1.5 text-center text-xs font-medium text-paper transition hover:bg-fuchsia-deep"
+                >
+                  Rezervasyon
+                </a>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+    <div class="mt-3 grid gap-3 md:grid-cols-3">
+      {
+        houseBottom.map((stay, i) => (
+          <article
+            class="overflow-hidden rounded-3xl bg-cream shadow-[4px_6px_18px_rgb(27_39_32_/_0.12)]"
+            data-reveal
+            style={`--reveal-delay: ${i * 60}ms`}
+          >
+            <img src={stay.image} alt="" class="h-56 w-full object-cover object-center" />
+            <div class="p-4">
+              <h3 class="font-display text-2xl">{stay.title}</h3>
+              <p class="mt-3 text-sm text-ink/70">{stay.text}</p>
+              <div class="mt-5 grid w-full grid-cols-2 gap-1.5">
+                <a
+                  href={`#ozellik-${stay.id}`}
+                  data-features-open
+                  data-stay-title={stay.title}
+                  data-stay-features={JSON.stringify(stay.features)}
+                  class="flex w-full items-center justify-center rounded-full border border-fuchsia px-3 py-1.5 text-center text-xs font-medium text-fuchsia transition hover:bg-fuchsia/10"
+                >
+                  Özellikler
+                </a>
+                <a
+                  href="#rezervasyon"
+                  data-stay-title={stay.title}
+                  class="flex w-full items-center justify-center rounded-full bg-fuchsia px-3 py-1.5 text-center text-xs font-medium text-paper transition hover:bg-fuchsia-deep"
+                >
+                  Rezervasyon
+                </a>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+
+  <div
+    class="stay-ticker my-8 w-full cursor-default overflow-x-hidden bg-forest py-3 text-lime select-none"
+    aria-label="Alice in Boyabağı. Hızlı rezervasyon. WhatsApp’tan yaz. İstersen ara."
+  >
+    <div class="stay-ticker-track flex w-max">
+      {
+        [0, 1, 2].map((copy) => (
+          <p
+            class="flex shrink-0 items-center gap-6 pr-6 text-sm font-semibold tracking-wide whitespace-nowrap"
+            aria-hidden={copy > 0}
+          >
+            <span>Alice in Boyabağı</span>
+            <span aria-hidden="true">↓</span>
+            <span>Hızlı rezervasyon</span>
+            <span aria-hidden="true">↓</span>
+            <span>WhatsApp’tan yaz</span>
+            <span aria-hidden="true">↓</span>
+            <span>İstersen ara</span>
+            <span aria-hidden="true">↓</span>
+          </p>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-4 md:px-6">
+    <div
+      id="rezervasyon"
+      class="mt-0 rounded-3xl border border-forest/15 bg-forest px-5 py-8 text-cream md:px-10"
+      data-reveal
+    >
+      <div>
+        <p class="text-xs font-semibold tracking-[0.2em] text-lime uppercase">
+          Rezervasyon
+        </p>
+        <h3 class="mt-2 font-display text-3xl">Yazman veya araman yeterli</h3>
+        <p class="mt-2 max-w-xl text-sm text-cream/75">
+          Tarih, konaklama türü ve kişiyi doldur; WhatsApp mesajın hazır gelsin, istersen doğrudan ara.
+        </p>
+        <div class="mt-5 grid gap-5 md:grid-cols-[1fr_auto] md:items-end md:gap-8">
+          <div class="grid gap-3 md:grid-cols-2">
+            <label class="text-xs tracking-wide uppercase">
+              Giriş
+              <input
+                id="res-in"
+                type="date"
+                class="mt-1 h-10 w-full rounded-xl border-0 bg-cream/10 px-3 py-2 text-sm text-paper outline-none ring-1 ring-cream/20"
+              />
+            </label>
+            <label class="text-xs tracking-wide uppercase">
+              Çıkış
+              <input
+                id="res-out"
+                type="date"
+                class="mt-1 h-10 w-full rounded-xl border-0 bg-cream/10 px-3 py-2 text-sm text-paper outline-none ring-1 ring-cream/20"
+              />
+            </label>
+            <label class="text-xs tracking-wide uppercase">
+              Kişi
+              <input
+                id="res-guests"
+                type="number"
+                min="1"
+                placeholder="2"
+                class="mt-1 h-10 w-full rounded-xl border-0 bg-cream/10 px-3 py-2 text-sm text-paper outline-none ring-1 ring-cream/20"
+              />
+            </label>
+            <label class="text-xs tracking-wide uppercase">
+              Konaklama türü
+              <span class="relative mt-1 block">
+                <select
+                  id="res-stay"
+                  class="h-10 w-full appearance-none rounded-xl border-0 bg-cream/10 px-3 py-2 pr-10 text-sm text-paper outline-none ring-1 ring-cream/20"
+                >
+                  <option value="">Seç</option>
+                  {[...tentStays, ...houseStays].map((stay) => (
+                    <option value={stay.title}>{stay.title}</option>
+                  ))}
+                </select>
+                <span class="stay-stay-chevron pointer-events-none absolute inset-y-0 right-3" aria-hidden="true"></span>
+              </span>
+            </label>
+          </div>
+          <div class="flex min-w-[13.5rem] flex-col gap-3 self-end">
+            <a
+              id="res-wa"
+              data-number={site.whatsapp.number}
+              href={whatsappUrl()}
+              target="_blank"
+              rel="noreferrer"
+              class="inline-flex h-12 w-full items-center justify-center rounded-full bg-lime px-7 text-sm font-semibold text-ink transition hover:bg-cream"
+            >
+              WhatsApp’ta sor
+            </a>
+            <a
+              href={`tel:+${site.whatsapp.number}`}
+              class="inline-flex h-12 w-full items-center justify-center rounded-full border border-cream px-7 text-sm font-semibold text-cream transition hover:border-lime hover:bg-lime/10 hover:text-lime"
+            >
+              Telefonla ara
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<dialog
+  id="features-dialog"
+  class="fixed inset-0 z-[60] m-0 h-dvh max-h-none w-full max-w-none border-0 bg-ink/50 p-4 backdrop:bg-transparent"
+>
+  <div class="flex min-h-full items-center justify-center">
+    <div
+      data-feat-panel
+      class="relative w-[min(92vw,32rem)] rounded-3xl bg-paper p-6 shadow-[4px_6px_18px_rgb(27_39_32_/_0.16)] md:p-8"
+    >
+      <button
+        type="button"
+        data-feat="close"
+        class="absolute top-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink transition hover:border-fuchsia hover:text-fuchsia"
+        aria-label="Kapat"
+      >
+        ×
+      </button>
+      <p class="text-xs font-semibold tracking-[0.2em] text-fuchsia uppercase">Özellikler</p>
+      <h2 id="feat-title" class="mt-2 font-display text-3xl text-ink"></h2>
+      <ul id="feat-grid" class="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3"></ul>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const link = document.getElementById("res-wa") as HTMLAnchorElement | null;
+  const inn = document.getElementById("res-in") as HTMLInputElement | null;
+  const out = document.getElementById("res-out") as HTMLInputElement | null;
+  const guests = document.getElementById("res-guests") as HTMLInputElement | null;
+  const stayType = document.getElementById("res-stay") as HTMLSelectElement | null;
+  const number = link?.dataset.number ?? "90XXXXXXXXXX";
+
+  const update = () => {
+    const parts = ["Merhaba, Alice in Boyabağı konaklama için"];
+    if (stayType?.value) parts.push(stayType.value);
+    if (inn?.value) parts.push(`${inn.value}`);
+    if (out?.value) parts.push(`– ${out.value} tarihleri`);
+    if (guests?.value) parts.push(`${guests.value} kişi`);
+    parts.push("bilgi almak istiyorum.");
+    const text = parts.join(" ").replace("  ", " ");
+    if (link) link.href = `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
+  };
+
+  [inn, out, guests].forEach((el) => el?.addEventListener("input", update));
+  stayType?.addEventListener("change", update);
+
+  document.querySelectorAll('a[href="#rezervasyon"][data-stay-title]').forEach((node) => {
+    const btn = node as HTMLAnchorElement;
+    btn.addEventListener("click", () => {
+      const title = btn.dataset.stayTitle ?? "";
+      if (!stayType || !title) return;
+      if (![...stayType.options].some((opt) => opt.value === title)) return;
+      stayType.value = title;
+      stayType.dispatchEvent(new Event("change"));
+    });
+  });
+
+  const svg = (d: string) =>
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true">${d}</svg>`;
+
+  const featureIcons: Record<string, string> = {
+    elektrik: svg('<path d="M13 2 4 14h8l-1 8 9-12h-8z"/>'),
+    klima: svg(
+      '<path d="M12 3v3M12 18v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M3 12h3M18 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/><circle cx="12" cy="12" r="3"/>',
+    ),
+    kettle: svg(
+      '<path d="M8 8h7a1 1 0 0 1 1 1v2a5 5 0 0 1-5 5H9a1 1 0 0 1-1-1V8z"/><path d="M16 10h2a2 2 0 0 1 0 4h-1"/><path d="M9 16v3h6v-3"/><path d="M10 5c.5-1 1.5-2 3-2"/>',
+    ),
+    buzdolabi: svg(
+      '<rect x="7" y="3" width="10" height="18" rx="1.5"/><path d="M7 11h10"/><path d="M10 7v2M10 14v3"/>',
+    ),
+    wifi: svg(
+      '<path d="M5 12.5a9 9 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none"/>',
+    ),
+    dus: svg(
+      '<path d="M8 4h8v3H8z"/><path d="M12 7v3"/><path d="M8 14v1M12 14v2M16 14v1M10 17v1M14 17v1"/>',
+    ),
+    wc: svg(
+      '<circle cx="12" cy="8" r="3"/><path d="M8 20v-5a4 4 0 0 1 8 0v5"/><path d="M10 20h4"/>',
+    ),
+    "sac-kurutma": svg(
+      '<path d="M4 10h9l4-3v10l-4-3H4z"/><path d="M17 10c1.5.8 2.5 2 2.5 3.5S18.5 16 17 16.8"/>',
+    ),
+    balkon: svg(
+      '<path d="M5 21V9l7-5 7 5v12"/><path d="M5 15h14"/><path d="M9 15v6M15 15v6"/>',
+    ),
+    "kurulu-cadir": svg('<path d="M3 20 12 5l9 15z"/><path d="M12 20V5"/><path d="M7.5 20h9"/>'),
+  };
+
+  type StayFeature = { id: string; label: string };
+
+  const featDialog = document.getElementById("features-dialog") as HTMLDialogElement | null;
+  const featTitle = document.getElementById("feat-title");
+  const featGrid = document.getElementById("feat-grid");
+
+  const openFeatures = (title: string, features: StayFeature[]) => {
+    if (!featDialog || !featTitle || !featGrid) return;
+    featTitle.textContent = title;
+    featGrid.replaceChildren();
+    for (const item of features) {
+      const li = document.createElement("li");
+      li.className =
+        "flex items-center gap-2 rounded-2xl bg-cream px-3 py-2.5 text-sm text-ink";
+      const icon = document.createElement("span");
+      icon.className = "shrink-0 text-fuchsia";
+      icon.innerHTML = featureIcons[item.id] ?? svg('<circle cx="12" cy="12" r="4"/>');
+      const label = document.createElement("span");
+      label.textContent = item.label;
+      li.append(icon, label);
+      featGrid.append(li);
+    }
+    if (!featDialog.open) featDialog.showModal();
+  };
+
+  document.querySelectorAll<HTMLAnchorElement>("[data-features-open]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      let features: StayFeature[] = [];
+      try {
+        features = JSON.parse(btn.dataset.stayFeatures ?? "[]") as StayFeature[];
+      } catch {
+        features = [];
+      }
+      openFeatures(btn.dataset.stayTitle ?? "Özellikler", features);
+    });
+  });
+
+  featDialog?.querySelector("[data-feat=close]")?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    featDialog.close();
+  });
+
+  featDialog?.addEventListener("click", (e) => {
+    const el = e.target;
+    if (!(el instanceof Element)) return;
+    if (el.closest("[data-feat-panel]")) return;
+    featDialog.close();
+  });
+
+  const tickerTrack = document.querySelector(".stay-ticker-track") as HTMLElement | null;
+  const setTickerX = () => {
+    const first = tickerTrack?.firstElementChild as HTMLElement | undefined;
+    if (!tickerTrack || !first) return;
+    tickerTrack.style.setProperty("--ticker-x", `${first.getBoundingClientRect().width}px`);
+  };
+  setTickerX();
+  window.addEventListener("resize", setTickerX);
+  document.fonts?.ready.then(setTickerX);
+</script>
+
+<style>
+  .stay-ticker-track {
+    animation: stay-ticker 20s linear infinite;
+  }
+
+  @keyframes stay-ticker {
+    to {
+      transform: translateX(calc(-1 * var(--ticker-x, 50%)));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stay-ticker-track {
+      animation: none;
+    }
+  }
+
+  #res-stay {
+    color-scheme: dark;
+  }
+
+  #res-stay option {
+    background: var(--color-forest);
+    color: var(--color-paper);
+  }
+
+  .stay-stay-chevron {
+    width: 0.75rem;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' stroke='%23d2dc4e' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+</style>

@@ -1,0 +1,253 @@
+---
+import Base from "../../layouts/Base.astro";
+import BlogCard from "../../components/BlogCard.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const [featured, ...rest] = posts;
+const PAGE = 6;
+const paged = rest.length > PAGE;
+const restPages = paged
+  ? Array.from({ length: Math.ceil(rest.length / PAGE) }, (_, i) =>
+      rest.slice(i * PAGE, i * PAGE + PAGE),
+    )
+  : [];
+---
+
+<Base title="Blog" description="Alice in Boyabağı yazıları.">
+  <div class="section-pad mx-auto max-w-6xl px-4 pt-28 md:px-6">
+    <p class="text-xs font-semibold tracking-[0.22em] text-fuchsia uppercase">Blog</p>
+    <h1 class="mt-3 font-display text-5xl">Yazılar</h1>
+    <p class="mt-3 max-w-xl text-ink/70">
+      Sezon notları, yerin hali, küçük hikâyeler.
+    </p>
+    {
+      featured && (
+        <div class="mt-12">
+          <BlogCard post={featured} featured heading="h2" />
+        </div>
+      )
+    }
+    {
+      rest.length > 0 && !paged && (
+        <div class="mt-6 grid gap-6 md:grid-cols-3">
+          {rest.map((post) => (
+            <BlogCard post={post} heading="h2" imageClass="h-52" />
+          ))}
+        </div>
+      )
+    }
+    {
+      paged && (
+        <>
+          <div class="mt-6 grid gap-6 md:hidden">
+            {rest.map((post) => (
+              <BlogCard post={post} heading="h2" imageClass="h-52" />
+            ))}
+          </div>
+          <div class="blog-rest mt-6 hidden md:grid md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center md:gap-x-3 md:gap-y-4 -mx-2 lg:-mx-6">
+            <button
+              type="button"
+              data-blog-prev
+              class="group col-start-1 inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-ink/15 bg-paper/80 text-ink transition hover:border-fuchsia hover:text-fuchsia"
+              aria-label="Önceki yazılar"
+            >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  class="h-4 w-4 motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out motion-safe:group-hover:-translate-x-[0.3rem]"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M13 8H3M7 4l-4 4 4 4"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </button>
+              <div class="blog-rest-clip col-start-2 min-w-0" data-blog-clip>
+                <div class="blog-rest-track flex" data-blog-track>
+                  {restPages.map((page) => (
+                    <div class="blog-rest-page grid grid-cols-3 gap-6">
+                      {page.map((post) => (
+                        <BlogCard post={post} heading="h2" imageClass="h-52" slide />
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <button
+                type="button"
+                data-blog-next
+                class="group col-start-3 inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-ink/15 bg-paper/80 text-ink transition hover:border-fuchsia hover:text-fuchsia"
+                aria-label="Sonraki yazılar"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  class="h-4 w-4 motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out motion-safe:group-hover:translate-x-[0.3rem]"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </button>
+            <div class="col-span-1 col-start-2 mt-0 flex justify-center gap-2" data-blog-pages>
+              {restPages.map((_, i) => (
+                <button
+                  type="button"
+                  data-blog-page={String(i)}
+                  class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/15 bg-paper/80 text-sm font-medium text-ink transition hover:border-fuchsia hover:text-fuchsia"
+                  aria-label={`Sayfa ${i + 1}`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+          </div>
+        </>
+      )
+    }
+  </div>
+</Base>
+
+{
+  paged && (
+    <script>
+      const clip = document.querySelector("[data-blog-clip]") as HTMLElement | null;
+      const track = document.querySelector("[data-blog-track]") as HTMLElement | null;
+      const prev = document.querySelector("[data-blog-prev]") as HTMLButtonElement | null;
+      const next = document.querySelector("[data-blog-next]") as HTMLButtonElement | null;
+      const pageEls = track ? ([...track.children] as HTMLElement[]) : [];
+      const pageCount = pageEls.length;
+      let index = 0;
+      let pageWidth = 0;
+      const refTitle = "Yıldızların altında Boyabağı";
+
+      const layout = () => {
+        if (!clip || !track) return;
+        const w = clip.clientWidth;
+        pageWidth = w;
+        const cards = [...track.querySelectorAll<HTMLElement>(".blog-slide-card")];
+
+        for (const page of pageEls) {
+          page.style.boxSizing = "border-box";
+          page.style.width = `${w}px`;
+          page.style.flexBasis = `${w}px`;
+          page.style.minWidth = `${w}px`;
+          page.style.maxWidth = `${w}px`;
+          page.style.flexGrow = "0";
+          page.style.flexShrink = "0";
+          page.style.display = "grid";
+          page.style.visibility = "";
+          page.style.height = "";
+          page.style.gridTemplateRows = "repeat(2, auto)";
+        }
+
+        for (const card of cards) {
+          card.style.minHeight = "";
+          card.style.height = "";
+          card.style.maxHeight = "";
+        }
+
+        void track.offsetHeight;
+
+        const ref =
+          cards.find((card) => card.querySelector("h2")?.textContent?.trim() === refTitle) ??
+          cards[0];
+        const h = ref ? Math.ceil(ref.getBoundingClientRect().height) : 0;
+
+        if (h > 0) {
+          for (const card of cards) {
+            card.style.minHeight = `${h}px`;
+          }
+          for (const page of pageEls) {
+            page.style.gridTemplateRows = `repeat(2, ${h}px)`;
+          }
+        }
+      };
+
+      const pageBtns = [...document.querySelectorAll<HTMLButtonElement>("[data-blog-page]")];
+
+      const go = (n: number) => {
+        if (!clip || !track) return;
+        index = Math.max(0, Math.min(pageCount - 1, n));
+        layout();
+        const x = index * pageWidth;
+        track.style.transform = "none";
+        track.style.translate = x ? `-${x}px` : "0";
+        if (prev) {
+          prev.disabled = index === 0;
+          prev.classList.toggle("invisible", index === 0);
+          prev.setAttribute("aria-hidden", index === 0 ? "true" : "false");
+        }
+        if (next) {
+          next.disabled = index >= pageCount - 1;
+          next.classList.toggle("invisible", index >= pageCount - 1);
+          next.setAttribute("aria-hidden", index >= pageCount - 1 ? "true" : "false");
+        }
+        for (const btn of pageBtns) {
+          const i = Number(btn.dataset.blogPage);
+          const active = i === index;
+          btn.classList.toggle("pointer-events-none", active);
+          btn.classList.toggle("opacity-50", active);
+          if (active) btn.setAttribute("tabindex", "-1");
+          else btn.removeAttribute("tabindex");
+          if (active) btn.setAttribute("aria-current", "page");
+          else btn.removeAttribute("aria-current");
+        }
+      };
+
+      const imgs = track ? [...track.querySelectorAll("img")] : [];
+      Promise.all([
+        document.fonts?.ready ?? Promise.resolve(),
+        ...imgs.map((img) =>
+          img.complete
+            ? Promise.resolve()
+            : new Promise<void>((resolve) => {
+                img.addEventListener("load", () => resolve(), { once: true });
+                img.addEventListener("error", () => resolve(), { once: true });
+              }),
+        ),
+      ]).then(() => go(index));
+
+      prev?.addEventListener("click", () => go(index - 1));
+      next?.addEventListener("click", () => go(index + 1));
+      for (const btn of pageBtns) {
+        btn.addEventListener("click", () => go(Number(btn.dataset.blogPage)));
+      }
+      window.addEventListener("resize", () => go(index));
+      go(0);
+    </script>
+    <style>
+      .blog-rest-clip {
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: visible;
+        padding-inline: 0;
+        padding-bottom: 0;
+      }
+      .blog-rest-track {
+        box-sizing: border-box;
+        width: 100%;
+        transition: translate 0.45s ease;
+      }
+      .blog-rest-page {
+        box-sizing: border-box;
+        flex: 0 0 auto;
+        padding: 1.5rem;
+        align-content: start;
+        align-items: start;
+      }
+    </style>
+  )
+}

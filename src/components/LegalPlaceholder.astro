@@ -1,0 +1,16 @@
+---
+import Base from "../layouts/Base.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<Base title={title} description={`${title} metni henüz hazırlanıyor.`}>
+  <div class="section-pad mx-auto max-w-3xl px-4 pt-28 pb-8 md:px-6">
+    <h1 class="font-display text-4xl md:text-5xl">{title}</h1>
+    <p class="mt-6 text-ink/70">Bu metin henüz hazırlanıyor.</p>
+  </div>
+</Base>

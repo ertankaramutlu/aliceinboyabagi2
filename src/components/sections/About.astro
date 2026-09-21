@@ -1,0 +1,35 @@
+---
+import { pillars } from "../../data/site";
+import SectionHeading from "../SectionHeading.astro";
+---
+
+<section id="hakkimizda" class="section-pad">
+  <div class="mx-auto max-w-6xl px-4 md:px-6">
+    <SectionHeading
+      eyebrow="Hakkımızda"
+      title="Boyabağı’nda bir Alice günü"
+      intro="İzmir Karaburun, Boyabağı Koyu. Çadır, evler, plaj ve bar aynı yerde. Sabah çam kokusu, öğleden sonra Ege, akşam bar. Şehirden kısa bir sapma, uzun bir nefes."
+    />
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      {
+        pillars.map((item, i) => (
+          <article
+            class="overflow-hidden rounded-3xl bg-paper shadow-[4px_6px_18px_rgb(27_39_32_/_0.12)]"
+            data-reveal
+            style={`--reveal-delay: ${i * 60}ms`}
+          >
+            <img
+              src={item.image}
+              alt={item.alt}
+              class="h-auto w-full bg-paper object-contain"
+            />
+            <div class="p-5">
+              <h3 class="font-display text-2xl">{item.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink/70">{item.text}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
