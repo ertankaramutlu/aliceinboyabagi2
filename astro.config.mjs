@@ -8,7 +8,7 @@ import vercel from "@astrojs/vercel";
 
 export default defineConfig({
   site: "https://aliceinboyabagi.com",
-  output: "static",
+  output: "server",
   adapter: vercel(),
   integrations: [react(), markdoc(), keystatic()],
   vite: {
