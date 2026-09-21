@@ -22,10 +22,14 @@ export default config({
           label: "Açıklama",
           multiline: true,
         }),
-        pubDate: fields.date({ label: "Yayın tarihi" }),
+        pubDate: fields.date({
+          label: "Yayın tarihi",
+          validation: { isRequired: true },
+        }),
         image: fields.text({
           label: "Görsel",
           description: "public path, örn. /gallery-3.webp",
+          validation: { isRequired: true },
         }),
         placeholder: fields.checkbox({
           label: "Yer tutucu",
