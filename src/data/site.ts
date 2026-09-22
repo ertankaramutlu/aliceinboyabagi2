@@ -1,3 +1,5 @@
+const address = "Yukarı, Boyabağ Küme evleri no. 33, 35960 Karaburun/İzmir";
+
 export const site = {
   name: "Alice in Boyabağı",
   tagline:
@@ -6,10 +8,10 @@ export const site = {
     "Alice in Boyabağı; İzmir Karaburun, Boyabağı Koyu’nda çadır, evler, plaj ve barıyla Ege’nin içinde sakin bir kaçış.",
   locale: "tr",
   locationLabel: "Boyabağı Koyu, Karaburun",
-  address: "Boyabağı, konum bilgisi yakında güncellenecek.",
+  address,
   hours: "Sezona göre değişir. WhatsApp üzerinden sorun.",
   instagram: "https://www.instagram.com/aliceinboyabagi/",
-  mapsUrl: "https://maps.google.com/?q=Boyaba%C4%9F%C4%B1%20Koyu%20Karaburun%20%C4%B0zmir",
+  mapsUrl: `https://maps.google.com/?q=${encodeURIComponent(address)}`,
   whatsapp: {
     number: "90XXXXXXXXXX",
     defaultMessage:

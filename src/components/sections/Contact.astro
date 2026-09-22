@@ -15,7 +15,14 @@ import SectionHeading from "../SectionHeading.astro";
         data-reveal
       >
         <p class="text-xs font-semibold tracking-[0.18em] text-ink/50 uppercase">Adres</p>
-        <p class="mt-2 font-display text-2xl">{site.address}</p>
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(site.address)}`}
+          class="mt-2 font-display text-2xl hover:text-fuchsia hover:underline"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {site.address}
+        </a>
         <div class="mt-8 flex flex-col gap-3 md:mt-auto md:pt-8">
           <a
             href={whatsappUrl()}
@@ -60,7 +67,7 @@ import SectionHeading from "../SectionHeading.astro";
         <iframe
           title="Boyabağı Koyu haritası"
           aria-label="Boyabağı Koyu haritası"
-          src="https://maps.google.com/maps?q=Boyaba%C4%9F%C4%B1%20Koyu%20Karaburun&output=embed"
+          src={`${site.mapsUrl}&output=embed`}
           class="h-full min-h-72 w-full flex-1 border-0"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"></iframe>
