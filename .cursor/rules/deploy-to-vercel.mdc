@@ -1,0 +1,18 @@
+---
+description: Bitmiş site işini commit edip main'e push et; Vercel canlıya alsın
+alwaysApply: true
+---
+
+# Canlıya alma
+
+Vercel `main` push'undan deploy eder. Dosyayı kaydetmek canlı siteye gitmez.
+
+İstenen iş bitip doğrulanınca, ertan "push" veya "canlıya al" demeden:
+
+1. Yalnızca o işin dosyalarını commit et.
+2. `origin/main`'e push et.
+3. Vercel deploy'unun başladığını kısaca söyle.
+
+Paralel veya bitmemiş işi, secret dosyalarını ve istenmeyen değişiklikleri commit etme. Ertan o turda açıkça "commit/push yok" derse dur.
+
+Dev sunucuyu yeniden başlatma. Yeni port açma.
