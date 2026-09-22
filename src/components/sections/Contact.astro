@@ -26,7 +26,7 @@ import SectionHeading from "../SectionHeading.astro";
         <div class="mt-8 flex flex-col gap-3 md:mt-auto md:pt-8">
           <a
             href={whatsappUrl()}
-            class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-fuchsia text-sm font-medium text-paper"
+            class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-fuchsia text-sm font-medium text-paper transition hover:bg-fuchsia-deep"
             target="_blank"
             rel="noreferrer"
           >
@@ -37,7 +37,7 @@ import SectionHeading from "../SectionHeading.astro";
           </a>
           <a
             href={`tel:+${site.whatsapp.number}`}
-            class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-ink/15 text-sm"
+            class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-ink/15 text-sm transition hover:border-fuchsia hover:text-fuchsia"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" class="h-4 w-4 shrink-0" aria-hidden="true">
               <path d="M4.2 2.8h2l.8 2.2-1.2.9a7 7 0 0 0 3.3 3.3l.9-1.2 2.2.8v2A1.2 1.2 0 0 1 11 12 8.2 8.2 0 0 1 4 5a1.2 1.2 0 0 1 .2-2.2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
@@ -46,7 +46,7 @@ import SectionHeading from "../SectionHeading.astro";
           </a>
           <a
             href={site.instagram}
-            class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-ink/15 text-sm"
+            class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-ink/15 text-sm transition hover:border-fuchsia hover:text-fuchsia"
             target="_blank"
             rel="noreferrer"
           >
