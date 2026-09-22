@@ -10,30 +10,46 @@ import SectionHeading from "../SectionHeading.astro";
       title="Yolu sor, yeri söyleyelim"
     />
     <div class="grid gap-6 md:grid-cols-2">
-      <div class="rounded-3xl bg-paper p-8" data-reveal>
-        <p class="font-display text-2xl">Adres</p>
-        <p class="mt-2 text-ink/70">{site.address}</p>
-        <p class="mt-6 font-display text-2xl">Saatler</p>
-        <p class="mt-2 text-ink/70">{site.hours}</p>
-        <div class="mt-8 flex flex-wrap gap-3">
+      <div
+        class="flex h-full flex-col rounded-3xl bg-cream p-6 shadow-[3px_4px_14px_rgb(27_39_32_/_0.07)] md:p-8"
+        data-reveal
+      >
+        <p class="text-xs font-semibold tracking-[0.18em] text-ink/50 uppercase">Adres</p>
+        <p class="mt-2 font-display text-2xl">{site.address}</p>
+        <div class="mt-8 flex flex-col gap-3 md:mt-auto md:pt-8">
           <a
             href={whatsappUrl()}
-            class="rounded-full bg-fuchsia px-5 py-3 text-sm font-medium text-paper"
+            class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-fuchsia text-sm font-medium text-paper"
             target="_blank"
-            rel="noreferrer">WhatsApp</a
+            rel="noreferrer"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" class="h-4 w-4 shrink-0" aria-hidden="true">
+              <path d="M8 2.5a5.5 5.5 0 0 0-4.7 8.3L2.5 13.5l2.8-.7A5.5 5.5 0 1 0 8 2.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
+            </svg>
+            WhatsApp ile yaz
+          </a>
           <a
-            href={site.mapsUrl}
-            class="rounded-full border border-ink/15 px-5 py-3 text-sm"
-            target="_blank"
-            rel="noreferrer">Harita</a
+            href={`tel:+${site.whatsapp.number}`}
+            class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-ink/15 text-sm"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" class="h-4 w-4 shrink-0" aria-hidden="true">
+              <path d="M4.2 2.8h2l.8 2.2-1.2.9a7 7 0 0 0 3.3 3.3l.9-1.2 2.2.8v2A1.2 1.2 0 0 1 11 12 8.2 8.2 0 0 1 4 5a1.2 1.2 0 0 1 .2-2.2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
+            </svg>
+            Ara · {site.whatsapp.number}
+          </a>
           <a
             href={site.instagram}
-            class="rounded-full border border-ink/15 px-5 py-3 text-sm"
+            class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-ink/15 text-sm"
             target="_blank"
-            rel="noreferrer">Instagram</a
+            rel="noreferrer"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" class="h-4 w-4 shrink-0" aria-hidden="true">
+              <rect x="2.5" y="2.5" width="11" height="11" rx="3" stroke="currentColor" stroke-width="1.4"></rect>
+              <circle cx="8" cy="8" r="2.4" stroke="currentColor" stroke-width="1.4"></circle>
+              <circle cx="11.3" cy="4.7" r="0.6" fill="currentColor"></circle>
+            </svg>
+            Instagram · @aliceinboyabagi
+          </a>
         </div>
       </div>
       <div
