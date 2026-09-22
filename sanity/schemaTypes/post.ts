@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { CoverInput } from "../components/CoverInput";
 
 export const post = defineType({
   name: "post",
@@ -36,6 +37,7 @@ export const post = defineType({
       title: "Kapak",
       type: "image",
       options: { hotspot: true },
+      components: { input: CoverInput },
     }),
     defineField({
       name: "body",
