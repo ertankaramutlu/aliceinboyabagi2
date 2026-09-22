@@ -6,15 +6,15 @@ import SectionHeading from "../SectionHeading.astro";
 <section id="sss" class="section-pad bg-paper">
   <div class="mx-auto max-w-3xl px-4 md:px-6">
     <SectionHeading eyebrow="SSS" title="Sık sorulanlar" />
-    <div class="space-y-3">
+    <div class="space-y-4">
       {
         faqs.map((item, i) => (
           <details
-            class="group rounded-2xl border border-ink/8 bg-cream px-5 py-4 open:border-forest/20"
+            class="group rounded-3xl bg-cream px-5 py-4 shadow-[4px_6px_18px_rgb(27_39_32_/_0.12)]"
             data-reveal
             style={`--reveal-delay: ${i * 60}ms`}
           >
-            <summary class="cursor-pointer list-none font-medium marker:content-none">
+            <summary class="cursor-pointer list-none font-medium marker:content-none hover:text-fuchsia">
               <span class="flex items-center justify-between gap-4">
                 {item.q}
                 <span class="text-fuchsia transition group-open:rotate-45">+</span>
