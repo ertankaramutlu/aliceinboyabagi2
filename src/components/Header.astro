@@ -185,11 +185,11 @@ const { home = false } = Astro.props;
 
   #site-header.nav-reveal {
     transform-origin: center;
-    animation: nav-open-x 0.4s ease-out both;
+    animation: nav-open-x 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
   #site-header.nav-reveal .nav-reveal-inner {
-    animation: nav-inner-fade 0.25s ease-out 0.15s both;
+    animation: nav-inner-fade 0.53s ease-out 0.32s both;
   }
 
   @media (prefers-reduced-motion: reduce) {
