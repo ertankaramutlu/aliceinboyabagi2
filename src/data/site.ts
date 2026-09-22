@@ -9,7 +9,7 @@ export const site = {
   address: "Boyabağı, konum bilgisi yakında güncellenecek.",
   hours: "Sezona göre değişir. WhatsApp üzerinden sorun.",
   instagram: "https://www.instagram.com/aliceinboyabagi/",
-  mapsUrl: "https://maps.google.com/?q=Boyaba%C4%9F%C4%B1",
+  mapsUrl: "https://maps.google.com/?q=Boyaba%C4%9F%C4%B1%20Koyu%20Karaburun%20%C4%B0zmir",
   whatsapp: {
     number: "90XXXXXXXXXX",
     defaultMessage:

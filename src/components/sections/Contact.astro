@@ -36,21 +36,27 @@ import SectionHeading from "../SectionHeading.astro";
           >
         </div>
       </div>
-      <a
-        href={site.mapsUrl}
-        target="_blank"
-        rel="noreferrer"
-        class="relative min-h-72 overflow-hidden rounded-3xl"
+      <div
+        class="flex min-h-72 flex-col overflow-hidden rounded-3xl md:min-h-full"
         data-reveal
         style="--reveal-delay: 60ms"
       >
-        <img src="/gallery-10.webp" alt="Boyabağı çevresi" class="h-full w-full object-cover" />
-        <span
-          class="absolute inset-x-6 bottom-6 rounded-full bg-cream/95 px-4 py-3 text-center text-sm font-medium"
+        <iframe
+          title="Boyabağı Koyu haritası"
+          aria-label="Boyabağı Koyu haritası"
+          src="https://maps.google.com/maps?q=Boyaba%C4%9F%C4%B1%20Koyu%20Karaburun&output=embed"
+          class="min-h-72 w-full flex-1 border-0"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <a
+          href={site.mapsUrl}
+          target="_blank"
+          rel="noreferrer"
+          class="bg-cream px-4 py-3 text-center text-sm font-medium"
         >
           Haritada aç
-        </span>
-      </a>
+        </a>
+      </div>
     </div>
   </div>
 </section>
