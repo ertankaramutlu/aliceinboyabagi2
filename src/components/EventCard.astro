@@ -51,15 +51,17 @@ const upcoming = isUpcoming(event.data.date);
         featured ? "h-full w-full" : ["w-full shrink-0", imageClass],
       ]}
     />
-    {countdown && <EventCountdown iso={eventStartIso(event.data.date)} />}
-    <p
-      class:list={[
-        "pointer-events-none absolute top-3 right-3 z-10 rounded-full px-3 py-1 text-xs",
-        upcoming ? "bg-fuchsia text-paper" : "bg-paper/90 text-ink/55",
-      ]}
-    >
-      {upcoming ? "Gelecek" : "Geçmiş"}
-    </p>
+    <div class="pointer-events-none absolute top-3 left-3 z-10 flex flex-wrap items-center gap-2">
+      {countdown && <EventCountdown iso={eventStartIso(event.data.date)} embedded />}
+      <p
+        class:list={[
+          "rounded-full px-3 py-1 text-xs",
+          upcoming ? "bg-fuchsia text-paper" : "bg-paper/90 text-ink/55",
+        ]}
+      >
+        {upcoming ? "Gelecek" : "Geçmiş"}
+      </p>
+    </div>
   </div>
   <div
     class:list={[

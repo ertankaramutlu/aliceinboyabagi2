@@ -3,16 +3,20 @@ import { countdownParts } from "../lib/events";
 
 interface Props {
   iso: string;
+  embedded?: boolean;
 }
 
-const { iso } = Astro.props;
+const { iso, embedded = false } = Astro.props;
 const parts = countdownParts(iso);
 ---
 
 {
   parts && (
     <p
-      class="pointer-events-none absolute top-3 left-3 z-10 inline-flex items-baseline gap-2 rounded-full bg-paper px-3 py-1.5 text-xs text-ink"
+      class:list={[
+        "pointer-events-none z-10 inline-flex items-baseline gap-2 rounded-full bg-paper px-3 py-1.5 text-xs text-ink",
+        embedded ? "static" : "absolute top-3 left-3",
+      ]}
       data-countdown={iso}
     >
       <span>
