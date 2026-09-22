@@ -10,18 +10,13 @@ import Faq from "../components/sections/Faq.astro";
 import Contact from "../components/sections/Contact.astro";
 import { getCollection } from "astro:content";
 import { getBlogPosts } from "../lib/blog";
-import { firstUpcoming, isUpcoming } from "../lib/events";
+import { firstUpcoming, sortEvents } from "../lib/events";
 
 const posts = (await getBlogPosts()).slice(0, 3);
 
-const allEvents = (await getCollection("etkinlikler")).sort(
-  (a, b) => a.data.date.valueOf() - b.data.date.valueOf(),
-);
+const allEvents = sortEvents(await getCollection("etkinlikler"));
 const countdownId = firstUpcoming(allEvents)?.id;
-const events = [
-  ...allEvents.filter((event) => isUpcoming(event.data.date)),
-  ...allEvents.filter((event) => !isUpcoming(event.data.date)),
-].slice(0, 2);
+const events = allEvents.slice(0, 2);
 ---
 
 <Base>

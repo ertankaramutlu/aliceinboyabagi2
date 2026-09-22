@@ -34,15 +34,28 @@ const {
   data-reveal={typeof revealDelay === "number" ? "" : undefined}
   style={typeof revealDelay === "number" ? `--reveal-delay: ${revealDelay}ms` : undefined}
 >
-  <div class:list={[countdown ? "relative" : "contents"]}>
+  <div
+    class:list={[
+      countdown
+        ? [
+            "relative z-10 overflow-visible",
+            featured
+              ? "h-52 w-full shrink-0 md:h-72 md:min-h-72 md:w-1/2 md:self-stretch"
+              : "shrink-0",
+          ]
+        : "contents",
+    ]}
+  >
     <img
       src={event.data.image}
       alt=""
       class:list={[
         "object-cover",
-        featured
-          ? "h-52 w-full shrink-0 md:h-72 md:min-h-72 md:w-1/2 md:self-stretch"
-          : ["w-full shrink-0", imageClass],
+        countdown && featured
+          ? "h-full w-full"
+          : featured
+            ? "h-52 w-full shrink-0 md:h-72 md:min-h-72 md:w-1/2 md:self-stretch"
+            : ["w-full shrink-0", imageClass],
       ]}
     />
     {countdown && <EventCountdown iso={eventStartIso(event.data.date)} />}

@@ -24,13 +24,25 @@ export function isUpcoming(date: Date, now = new Date()): boolean {
   return eventDayKey(date) >= istanbulTodayKey(now);
 }
 
+export function sortEvents<T extends { data: { date: Date } }>(
+  events: T[],
+  now = new Date(),
+): T[] {
+  const upcoming = events
+    .filter((event) => isUpcoming(event.data.date, now))
+    .sort((a, b) => eventDayKey(a.data.date).localeCompare(eventDayKey(b.data.date)));
+  const past = events
+    .filter((event) => !isUpcoming(event.data.date, now))
+    .sort((a, b) => eventDayKey(b.data.date).localeCompare(eventDayKey(a.data.date)));
+  return [...upcoming, ...past];
+}
+
 export function firstUpcoming<T extends { id: string; data: { date: Date } }>(
   events: T[],
   now = new Date(),
 ): T | undefined {
-  return events
-    .filter((event) => isUpcoming(event.data.date, now))
-    .sort((a, b) => eventDayKey(a.data.date).localeCompare(eventDayKey(b.data.date)))[0];
+  const first = sortEvents(events, now)[0];
+  return first && isUpcoming(first.data.date, now) ? first : undefined;
 }
 
 export function countdownParts(iso: string, now = new Date()) {

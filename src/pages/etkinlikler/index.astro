@@ -2,10 +2,10 @@
 import Base from "../../layouts/Base.astro";
 import EventCard from "../../components/EventCard.astro";
 import { getCollection } from "astro:content";
+import { firstUpcoming, sortEvents } from "../../lib/events";
 
-const events = (await getCollection("etkinlikler")).sort(
-  (a, b) => a.data.date.valueOf() - b.data.date.valueOf(),
-);
+const events = sortEvents(await getCollection("etkinlikler"));
+const countdownId = firstUpcoming(events)?.id;
 const [featured, ...rest] = events;
 const PAGE = 6;
 const paged = rest.length > PAGE;
@@ -23,7 +23,12 @@ const restPages = paged
     {
       featured && (
         <div class="mt-12">
-          <EventCard event={featured} featured heading="h2" />
+          <EventCard
+            event={featured}
+            featured
+            heading="h2"
+            countdown={featured.id === countdownId}
+          />
         </div>
       )
     }

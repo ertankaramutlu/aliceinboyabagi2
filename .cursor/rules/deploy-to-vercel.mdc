@@ -7,12 +7,14 @@ alwaysApply: true
 
 Vercel `main` push'undan deploy eder. Dosyayı kaydetmek canlı siteye gitmez.
 
-İstenen iş bitip doğrulanınca, ertan "push" veya "canlıya al" demeden:
+İş bitip doğrulanınca, ertan söylemeden:
 
 1. Yalnızca o işin dosyalarını commit et.
 2. `origin/main`'e push et.
-3. Vercel deploy'unun başladığını kısaca söyle.
+3. Vercel deploy'unun bittiğini kısaca söyle.
 
-Paralel veya bitmemiş işi, secret dosyalarını ve istenmeyen değişiklikleri commit etme. Ertan o turda açıkça "commit/push yok" derse dur.
+Görev cümlesindeki "istenmeden commit/push yok" bunu durdurmaz. Biten değişiklik canlıya gider.
+
+Paralel veya bitmemiş işi ve secret dosyalarını commit etme. Ertan o iş için "bunu canlıya alma" derse dur.
 
 Dev sunucuyu yeniden başlatma. Yeni port açma.
