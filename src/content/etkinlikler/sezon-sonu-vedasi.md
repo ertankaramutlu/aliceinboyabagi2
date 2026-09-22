@@ -1,7 +1,7 @@
 ---
 title: "Sezon sonu vedası"
 description: "Yaz kapanırken koy, çadır ve bar. Küçük bir kapanış."
-date: 2026-08-22
+date: 2026-11-14
 image: "/gallery-12.webp"
 placeholder: true
 ---

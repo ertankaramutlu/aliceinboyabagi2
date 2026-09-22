@@ -1,0 +1,70 @@
+---
+import { countdownParts } from "../lib/events";
+
+interface Props {
+  iso: string;
+}
+
+const { iso } = Astro.props;
+const parts = countdownParts(iso);
+---
+
+{
+  parts && (
+    <p
+      class="pointer-events-none absolute top-3 left-3 z-10 inline-flex items-baseline gap-2 rounded-full bg-paper px-3 py-1.5 text-xs text-ink"
+      data-countdown={iso}
+    >
+      <span>
+        <span data-countdown-days class="font-medium tabular-nums">
+          {parts.days}
+        </span>{" "}
+        gün
+      </span>
+      <span>
+        <span data-countdown-hours class="font-medium tabular-nums">
+          {parts.hours}
+        </span>{" "}
+        saat
+      </span>
+      <span>
+        <span data-countdown-minutes class="font-medium tabular-nums">
+          {parts.minutes}
+        </span>{" "}
+        dk
+      </span>
+    </p>
+  )
+}
+
+<script>
+  const units = ["days", "hours", "minutes"] as const;
+
+  function render(el: HTMLElement) {
+    const iso = el.dataset.countdown;
+    if (!iso) return;
+    const diff = new Date(iso).getTime() - Date.now();
+    if (diff <= 0) {
+      el.hidden = true;
+      return;
+    }
+    const totalMinutes = Math.floor(diff / 60000);
+    const values = {
+      days: Math.floor(totalMinutes / 1440),
+      hours: Math.floor((totalMinutes % 1440) / 60),
+      minutes: totalMinutes % 60,
+    };
+    el.hidden = false;
+    for (const unit of units) {
+      const node = el.querySelector(`[data-countdown-${unit}]`);
+      if (node) node.textContent = String(values[unit]);
+    }
+  }
+
+  function tick() {
+    document.querySelectorAll<HTMLElement>("[data-countdown]").forEach(render);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
