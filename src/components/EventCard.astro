@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  event: CollectionEntry<"etkinlikler">;
+  imageClass?: string;
+  heading?: "h2" | "h3";
+  revealDelay?: number;
+}
+
+const {
+  event,
+  imageClass = "h-52",
+  heading: Heading = "h3",
+  revealDelay,
+} = Astro.props;
+---
+
+<a
+  href={`/etkinlikler/${event.id}`}
+  class="group flex h-full flex-col overflow-hidden rounded-3xl bg-cream shadow-[4px_6px_18px_rgb(27_39_32_/_0.12)]"
+  data-reveal={typeof revealDelay === "number" ? "" : undefined}
+  style={typeof revealDelay === "number" ? `--reveal-delay: ${revealDelay}ms` : undefined}
+>
+  <img src={event.data.image} alt="" class:list={["w-full shrink-0 object-cover", imageClass]} />
+  <div class="flex flex-1 flex-col p-5">
+    <p class="text-xs tracking-wide text-moss uppercase">
+      {event.data.date.toLocaleDateString("tr-TR")}
+    </p>
+    <Heading class="mt-2 line-clamp-2 font-display text-2xl group-hover:text-fuchsia">
+      {event.data.title}
+    </Heading>
+    <p class="mt-2 line-clamp-2 text-sm text-ink/65">
+      {event.data.description}
+    </p>
+    <p class="mt-auto inline-flex shrink-0 items-center gap-1 pt-4 text-sm font-medium text-fuchsia">
+      Etkinliği gör
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 16 16"
+        fill="none"
+        class="h-4 w-4 shrink-0 motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out motion-safe:group-hover:translate-x-[0.3rem]"
+        aria-hidden="true"
+      >
+        <path
+          d="M3 8h10M9 4l4 4-4 4"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+    </p>
+  </div>
+</a>
