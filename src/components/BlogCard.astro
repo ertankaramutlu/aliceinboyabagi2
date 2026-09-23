@@ -30,16 +30,18 @@ const {
   data-reveal={typeof revealDelay === "number" ? "" : undefined}
   style={typeof revealDelay === "number" ? `--reveal-delay: ${revealDelay}ms` : undefined}
 >
-  <img
-    src={post.image}
-    alt=""
-    class:list={[
-      "object-cover",
-      featured
-        ? "h-52 w-full shrink-0 md:h-72 md:min-h-72 md:w-1/2 md:self-stretch"
-        : ["w-full shrink-0", imageClass],
-    ]}
-  />
+  {
+    featured ? (
+      <div class="relative z-10 h-52 w-full shrink-0 overflow-visible md:h-72 md:min-h-72 md:w-1/2 md:self-stretch">
+        <img src={post.image} alt="" class="h-full w-full object-cover" />
+        <p class="pointer-events-none absolute top-3 left-3 z-10 rounded-full bg-fuchsia px-3 py-1 text-xs text-paper">
+          Son yazı
+        </p>
+      </div>
+    ) : (
+      <img src={post.image} alt="" class:list={["w-full shrink-0 object-cover", imageClass]} />
+    )
+  }
   <div
     class:list={[
       "flex flex-1 flex-col",
